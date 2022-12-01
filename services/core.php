@@ -32,14 +32,19 @@ switch ($_POST['action']) {
         editDep();
         break;
     }
+    case 'addBranch':
+    {
+        addBranch();
+        break;
+    }
 
 }
 
 function initManager(): DataManager
 {
     $manager = new DataManager();
-    //    $manager->init_data();
-    //    $manager->save_data();
+//    $manager->init_data();
+//    $manager->save_data();
     $manager->load_data();
     return $manager;
 }
@@ -106,7 +111,7 @@ function editDep(): void
         $manager = initManager();
         $b = $manager->get_company()->find_branch($b_name);
         if ($b !== -1) {
-            if($b->find_department($new_d_name) === -1){
+            if ($b->find_department($new_d_name) === -1) {
                 $b->find_department($d_name)->set_name($new_d_name);
                 $manager->save_data();
                 echo 1;
@@ -132,4 +137,20 @@ function findBranch($b_name): Branch
 {
     $manager = initManager();
     return $manager->get_company()->find_branch($b_name);
+}
+
+function addBranch(): void
+{
+    $manager = initManager();
+    if (isset($_POST['b_name'])) {
+        $b_name = $_POST['b_name'];
+        if ($manager->get_company()->find_branch($b_name) == -1) {
+            $manager->get_company()->add_branch(new Branch($b_name));
+            $manager->save_data();
+            echo 1;
+        } else
+            echo -1;
+    } else
+        echo 0;
+
 }

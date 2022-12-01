@@ -1,4 +1,4 @@
-import {loadBranches, loadBranchSelected, loadDeps, loadDepSelected, saveDepSelected} from './modules/storage.js';
+import {loadBranches, loadBranchSelected, loadDeps, loadDepSelected, saveDepSelected} from '../modules/storage.js';
 
 let branches = loadBranches();
 let deps = loadDeps();
@@ -20,7 +20,7 @@ $(document).ready(() => {
         if (new_d_name !== '') {
             console.log(`${b_name} | ${d_name} | ${new_d_name}`)
             $.post(
-                "services/core.php",
+                "../../services/core.php",
                 {
                     "action": "editDep",
                     "b_name": b_name,
@@ -44,10 +44,10 @@ function successResult(data) {
     $('#dep-edit').html(out);
 }
 
-function decodeData() {
-    // return decodeURIComponent(window.location.href.split('?')[1]).split(',');
-    return decodeURIComponent(window.location.hash.substring(1)).split(',');
-}
+// function decodeData() {
+//     // return decodeURIComponent(window.location.href.split('?')[1]).split(',');
+//     return decodeURIComponent(window.location.hash.substring(1)).split(',');
+// }
 
 function displaySelect() {
     let out = '';

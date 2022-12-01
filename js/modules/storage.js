@@ -43,3 +43,7 @@ export function loadDepSelected() {
         return d_name;
     }
 }
+
+export function removeDepSelected(){
+    localStorage.removeItem('d_selected');
+}
