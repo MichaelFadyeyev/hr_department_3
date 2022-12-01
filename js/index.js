@@ -73,9 +73,9 @@ function displayDeps(data) {
         let n = 0;
         for (let dep of deps) {
             out +=
-                '<tr> ' +
+                '<tr id="' + dep.name.replaceAll(" ", "_") + '" class="dep-pointed"> ' +
                 `<th scope="row">${++n}</th>` +
-                `<td class="dep-pointed">${dep.name}</td>` +
+                `<td>${dep.name}</td>` +
                 `<td>${dep.employees.length}</td>` +
                 `<td><a href="dep-edit.html?#">Edit</a> | `+
                 `<a href="dep-delete.html?#${branch_selected},${dep.name}">Delete</a></td>` +
@@ -84,12 +84,13 @@ function displayDeps(data) {
         }
         $('#deps-table').html(out);
         $('.dep-pointed').on('click', getEmps);
+        $('a').on('click', (event) => { event.stopPropagation();});
     }
 }
 
 function getEmps(event) {
     let b_name = branch_selected;
-    let d_name = event.target.innerText;
+    let d_name = event.target.parentElement.id.replaceAll("_", " ");
     saveDepSelected(d_name);
     $('#dep-message').html('Дані по відділу: ' + d_name);
     $.post(
