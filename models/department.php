@@ -1,4 +1,4 @@
-<?php class Department
+<?php class Department implements JsonSerializable
 {
     private string $name;
     private Employee|array $employees;
@@ -7,6 +7,16 @@
     {
         $this->name = $name;
         $this->employees = [];
+    }
+
+    public function jsonSerialize(): array
+    {
+        return get_object_vars($this);
+    }
+
+    public function set_name($name): void
+    {
+        $this->name = $name;
     }
 
     public function get_name(): string
@@ -49,38 +59,5 @@
         if ($k > -1) {
             array_splice($this->employees, $k, 1);
         }
-    }
-
-    public function display(): void
-    {
-        $i=1;
-        echo '
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Position</th>
-                    <th scope="col">Salary</th>
-                    <th scope="col">Phone</th>
-                </tr>
-            </thead>
-            <tbody>';
-
-        foreach ($this->employees as $employee) {
-            echo '
-                <tr>
-                <th scope="row">' . "{$i}</th>
-                    <td>{$employee->get_name()}</td>
-                    <td>{$employee->get_position()}</td>
-                    <td>{$employee->get_salary()}</td>
-                    <td>{$employee->get_phone()}</td>
-                </tr>
-            ";
-            $i++;
-        }
-        echo '
-            </tbody>
-        </table>';
     }
 }
