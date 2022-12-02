@@ -38,9 +38,9 @@ function displayBranches(data) {
     $('#branch-select').html(out);
     // $('#select_branch').on('submit', displayDeps);
     $('#branch-form').on('change', getDeps).trigger('change');
-    out =`<a href="sections/branches/branch-add.html?#">Додати філіал</a>`;
-    out += ` | <a href="#">Редагувати філіал</a>`;
-    out += ` | <a href="#">Видалити філіал</a>`;
+    out =`<a href="sections/branches/branch-add.html?#">Додати філію</a>`;
+    out += ` | <a href="sections/branches/branch-edit.html?#">Редагувати філію</a>`;
+    out += ` | <a href="#">Видалити філію</a>`;
     $('#branch-crud').html(out);
 }
 
