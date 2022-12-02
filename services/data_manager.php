@@ -1,11 +1,10 @@
 <?php
-require_once('models/employee.php');
-require_once('models/department.php');
-require_once('models/branch.php');
-require_once('models/company.php');
+require_once('../models/employee.php');
+require_once('../models/department.php');
+require_once('../models/branch.php');
+require_once('../models/company.php');
 
-
-class DataManager
+class DataManager implements JsonSerializable
 {
     private Company $company;
     private string $data_file;
@@ -13,7 +12,12 @@ class DataManager
     public function __construct()
     {
         $this->company = new Company('This Company');
-        $this->data_file = 'data/company.dat';
+        $this->data_file = '../data/company.dat';
+    }
+
+    public function jsonSerialize(): array
+    {
+        return get_object_vars($this);
     }
 
     public function get_company(): Company
@@ -25,14 +29,12 @@ class DataManager
     {
         $sf = serialize($this->company);
         file_put_contents($this->data_file, $sf);
-        echo '<h5>Дані успішно збережені</h5></br>';
     }
 
     public function load_data(): void
     {
         $sf = file_get_contents($this->data_file);
         $this->company = unserialize($sf);
-        echo '<h5>Дані успішно завантажені</h5></br>';
     }
 
     public function init_data(): void
