@@ -1,5 +1,6 @@
 <?php
-class Company
+
+class Company implements JsonSerializable
 {
     private string $name;
     private Branch|array $branches;
@@ -8,6 +9,11 @@ class Company
     {
         $this->name = $name;
         $this->branches = [];
+    }
+
+    public function jsonSerialize(): array
+    {
+        return get_object_vars($this);
     }
 
     public function get_name(): string
@@ -23,29 +29,30 @@ class Company
     public function add_branch($branch): void
     {
         $this->branches[] = $branch;
+        return;
     }
 
-    public function find_branch($name): bool|int|string
+    public function find_branch($name): Branch|int
     {
-        $b = null;
         foreach ($this->branches as $branch) {
-            if ($branch->get_name() === $name) {
-                $b = $branch;
-                break;
-            }
+            if ($branch->get_name() === $name)
+                return $branch;
         }
-        if ($b === null) {
-            return -1;
-        } else {
-            return array_search($b, $this->branches);
-        }
+        return -1;
     }
 
-    public function del_branch($name): void
+    public function find_branch_index($name): int
     {
-        $k = $this->find_branch($name);
-        if ($k > -1) {
-            array_splice($this->branches, $k, 1);
-        }
+        $b = $this->find_branch($name);
+        if ($b === -1) return $b;
+        return array_search($b, $this->branches);
+    }
+
+    public function del_branch($name): int
+    {
+        $k = $this->find_branch_index($name);
+        if ($k === -1) return -1;
+        array_splice($this->branches, $k, 1);
+        return 1;
     }
 }

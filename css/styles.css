@@ -1,3 +1,32 @@
 body{
     padding-top: 30px;
 }
+
+.dep-pointed{
+    cursor: pointer;
+}
+
+.dep-pointed:hover{
+    color: #0a53be;
+}
+
+tr:hover{
+    color: #0a53be;
+}
+
+.table{
+    caret-color: transparent;
+}
+
+.table th:not(:first-child),
+.table td:not(:first-child){
+    text-align: center;
+}
+
+.branch-select-main{
+    width: calc(100% - 16px);
+}
+
+label{
+    margin-bottom: 0.5rem;
+}
