@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Branch - Edit</title>
+    <title>Branch - Delete</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="stylesheet" href="../../css/styles.css">
@@ -11,19 +11,19 @@
 
 <body>
     <div class="container">
-        <h1>Редагування філії ...</h1></br>
+        <h1>Видалення філії ...</h1></br>
         <div class="row">
             <div class="col-md-4">
-                <div id="branch-edit">
-                    <div id="branch-edit">
-                        <form id="branch-edit-form">
+                <div id="branch-delete">
+                    <div id="branch-delete">
+                        <form id="branch-delete-form">
                             <div class="mb-3">
                                 <label for="branch-name" сlass="form-label">Назва філії</label>
-                                <input type="text" id="branch-name" class="form-control" />
+                                <input type="text" id="branch-name" class="form-control" disabled/>
                                 </br>
                             </div>
                             <div class="mb-3">
-                                <input type="submit" value="Збереги зміни" class="btn btn-primary" />
+                                <input type="submit" value="Збереги зміни" class="btn btn-danger" />
                             </div>
                         </form>
                     </div>
@@ -36,7 +36,7 @@
                 integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
                 crossorigin="anonymous"></script>
         <!--<script src="js/modules/storage.js" type="module"></script>-->
-        <script src="../../js/branches/branch-edit.js" type="module"></script>
+        <script src="../../js/branches/branch-delete.js" type="module"></script>
 </body>
 
 </html>

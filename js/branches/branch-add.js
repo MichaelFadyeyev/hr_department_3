@@ -25,6 +25,6 @@ function successResult(data) {
         saveBranchSelected(b_name);
         out += `</br><h5>Філія <strong>${b_name}</strong> успішно додана</strong></h5>`;
     } else
-        out += `</br><h5>Помилка додавання нового відділу</h5>`;
+        out += `</br><h5>Помилка додавання нової філії</h5>`;
     $('#branch-add').html(out);
 }

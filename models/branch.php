@@ -21,6 +21,11 @@ class Branch implements JsonSerializable
         return $this->name;
     }
 
+    public function set_name($name): void
+    {
+        $this->name = $name;
+    }
+
     public function get_departments(): Department|array
     {
         return $this->departments;
@@ -56,6 +61,4 @@ class Branch implements JsonSerializable
             array_splice($this->departments, $k, 1);
         }
     }
-
-
 }

@@ -1,13 +1,14 @@
 import {
     loadBranchSelected,
+    loadDepSelected, 
     saveBranchSelected,
     saveDepSelected,
-    saveBranches, loadDepSelected, saveDeps
+    saveDeps,
+    saveBranches
 } from "./modules/storage.js";
 
 let branches;
 let branch_selected = '';
-//let dep_selected = '';
 $(document).ready(() => {
     console.log('start -> ok');
     getBranches();
@@ -40,7 +41,7 @@ function displayBranches(data) {
     $('#branch-form').on('change', getDeps).trigger('change');
     out =`<a href="sections/branches/branch-add.html?#">Додати філію</a>`;
     out += ` | <a href="sections/branches/branch-edit.html?#">Редагувати філію</a>`;
-    out += ` | <a href="#">Видалити філію</a>`;
+    out += ` | <a href="sections/branches/branch-delete.html?#">Видалити філію</a>`;
     $('#branch-crud').html(out);
 }
 

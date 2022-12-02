@@ -29,6 +29,7 @@ class Company implements JsonSerializable
     public function add_branch($branch): void
     {
         $this->branches[] = $branch;
+        return;
     }
 
     public function find_branch($name): Branch|int
@@ -44,16 +45,14 @@ class Company implements JsonSerializable
     {
         $b = $this->find_branch($name);
         if ($b === -1) return $b;
-        else {
-            return array_search($b, $this->branches);
-        }
+        return array_search($b, $this->branches);
     }
 
-    public function del_branch($name): void
+    public function del_branch($name): int
     {
         $k = $this->find_branch_index($name);
-        if ($k > -1) {
-            array_splice($this->branches, $k, 1);
-        }
+        if ($k === -1) return -1;
+        array_splice($this->branches, $k, 1);
+        return 1;
     }
 }

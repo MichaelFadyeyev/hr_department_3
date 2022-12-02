@@ -47,3 +47,7 @@ export function loadDepSelected() {
 export function removeDepSelected(){
     localStorage.removeItem('d_selected');
 }
+
+export function removeBranchSelected(){
+    localStorage.removeItem('b_selected');
+}

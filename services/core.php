@@ -2,49 +2,49 @@
 require('data_manager.php');
 
 switch ($_POST['action']) {
-    case 'getBranches':
-    {
-        getBranches();
-        break;
-    }
-    case 'getDeps':
-    {
-        getDeps();
-        break;
-    }
-    case 'getEmps':
-    {
-        getEmps();
-        break;
-    }
-    case 'addDep':
-    {
-        addDep();
-        break;
-    }
-    case 'delDep':
-    {
-        delDep();
-        break;
-    }
-    case 'editDep':
-    {
-        editDep();
-        break;
-    }
-    case 'addBranch':
-    {
-        addBranch();
-        break;
-    }
-
+    case 'getBranches': {
+            getBranches();
+            break;
+        }
+    case 'getDeps': {
+            getDeps();
+            break;
+        }
+    case 'getEmps': {
+            getEmps();
+            break;
+        }
+    case 'addDep': {
+            addDep();
+            break;
+        }
+    case 'delDep': {
+            delDep();
+            break;
+        }
+    case 'editDep': {
+            editDep();
+            break;
+        }
+    case 'addBranch': {
+            addBranch();
+            break;
+        }
+    case 'editBranch': {
+            editBranch();
+            break;
+        }
+    case 'deleteBranch': {
+            deleteBranch();
+            break;
+        }
 }
 
 function initManager(): DataManager
 {
     $manager = new DataManager();
-//    $manager->init_data();
-//    $manager->save_data();
+    //    $manager->init_data();
+    //    $manager->save_data();
     $manager->load_data();
     return $manager;
 }
@@ -128,7 +128,7 @@ function getEmps(): void
     if (isset($_POST['b_name']) && isset($_POST['d_name'])) {
         $b_name = $_POST['b_name'];
         $d_name = $_POST['d_name'];
-//        echo json_encode(findBranch($b_name)->get_departments());
+        //        echo json_encode(findBranch($b_name)->get_departments());
         echo json_encode(findBranch($b_name)->find_department($d_name)->get_employees());
     }
 }
@@ -152,5 +152,33 @@ function addBranch(): void
             echo -1;
     } else
         echo 0;
+}
 
+function editBranch(): void
+{
+    $manager = initManager();
+    if (isset($_POST['old_b_name']) && isset($_POST['b_name'])) {
+        $b_name = $_POST['b_name'];
+        $old_b_name = $_POST['old_b_name'];
+        $b = $manager->get_company()->find_branch($old_b_name);
+        if ($b !== -1) {
+            $b->set_name($b_name);
+            $manager->save_data();
+            echo 1;
+        } else
+            echo -1;
+    } else
+        echo 0;
+}
+
+function deleteBranch(): void
+{
+    $manager = initManager();
+    if (isset($_POST['b_name'])) {
+        if ($manager->get_company()->del_branch($_POST['b_name']) === 1) {
+            $manager->save_data();
+            echo 1;
+        }
+    } else
+        echo 0;
 }
