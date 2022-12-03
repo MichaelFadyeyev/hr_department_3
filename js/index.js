@@ -74,13 +74,21 @@ function getDeps() {
 function displayDepMenu(){
     let out = '';
     out += '<a href="sections/departments/dep-add.html?#">Додати відділ</a>';
-    console.log(loadDepSelected());
     if(loadDepSelected() !== undefined){
         out += ' | <a href="sections/departments/dep-edit.html?#">Редагувати відділ</a>';
         out += ' | <a href="sections/departments/dep-delete.html?#">Видалити відділ</a>';
     }
     out += '</br>';
-    $('#dep-add').html(out);
+    $('#dep-crud').html(out);
+}
+
+function displayEmpMenu(){
+    let out = '';
+    out+='<a href="sections/employees/emp-add.html?#">Додати співробітника</a>';
+    out += ' | <a href="sections/employees/emp-edit.html?#">Редагувати відділ</a>';
+    out += ' | <a href="sections/employees/emp-delete.html?#">Видалити відділ</a>';
+    out += '</br>';
+    $('#emp-crud').html(out);
 }
 
 // const testEmps = (event) => {
@@ -117,6 +125,7 @@ function getEmps(event) {
     saveDepSelected(d_name);
     displayDepMenu();
     $('#dep-message').html('Дані по відділу: ' + d_name);
+    displayEmpMenu();
     $.post(
         "services/core.php",
         {
@@ -140,7 +149,6 @@ function displayEmps (data){
             `<td>${emp.position}</td>` +
             `<td>${emp.salary}</td>` +
             `<td>${emp.phone}</td>` +
-            `<td><a href="#">Edit</a> | <a href="#">Delete</a></td>` +
             '</tr>'
         ;
     }
