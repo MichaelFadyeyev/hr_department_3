@@ -4,13 +4,15 @@ import {
     saveBranchSelected,
     saveDepSelected,
     saveDeps,
-    saveBranches
+    saveBranches,
+    removeDepSelected
 } from "./modules/storage.js";
 
 let branches;
 let branch_selected = '';
 $(document).ready(() => {
     console.log('start -> ok');
+    removeDepSelected();
     getBranches();
 });
 
@@ -23,7 +25,6 @@ function getBranches() {
 
 function displayBranches(data) {
     branches = JSON.parse(data);
-    console.log(branches);
     saveBranches(branches);
     let out = '';
     let b_selected = loadBranchSelected();
@@ -40,12 +41,16 @@ function displayBranches(data) {
     // $('#select_branch').on('submit', displayDeps);
     $('#branch-form').on('change', getDeps).trigger('change');
     out =`<a href="sections/branches/branch-add.html?#">Додати філію</a>`;
-    out += ` | <a href="sections/branches/branch-edit.html?#">Редагувати філію</a>`;
-    out += ` | <a href="sections/branches/branch-delete.html?#">Видалити філію</a>`;
+    if(loadBranchSelected() !== undefined){
+        out += ` | <a href="sections/branches/branch-edit.html?#">Редагувати філію</a>`;
+        out += ` | <a href="sections/branches/branch-delete.html?#">Видалити філію</a>`;
+    }
+    out += '</br>';
     $('#branch-crud').html(out);
 }
 
 function getDeps() {
+    console.log('getDeps()');
     let b_name = '';
     $("select#branch-select option:selected").each(function () {
         b_name += $(this).val();
@@ -53,7 +58,7 @@ function getDeps() {
     branch_selected = b_name;
     saveBranchSelected(b_name);
     $('#branch-message').html('Дані по філіалу: ' + b_name);
-    $('#dep-add').html(`<a href="sections/departments/dep-add.html?#">Додати відділ</a>`);
+    displayDepMenu();
     $('#dep-message').html('Оберіть відділ ...');
     $('#emps-table').html('');
     $.post(
@@ -64,6 +69,18 @@ function getDeps() {
         },
         displayDeps
     );
+}
+
+function displayDepMenu(){
+    let out = '';
+    out += '<a href="sections/departments/dep-add.html?#">Додати відділ</a>';
+    console.log(loadDepSelected());
+    if(loadDepSelected() !== undefined){
+        out += ' | <a href="sections/departments/dep-edit.html?#">Редагувати відділ</a>';
+        out += ' | <a href="sections/departments/dep-delete.html?#">Видалити відділ</a>';
+    }
+    out += '</br>';
+    $('#dep-add').html(out);
 }
 
 // const testEmps = (event) => {
@@ -82,21 +99,23 @@ function displayDeps(data) {
                 `<th scope="row">${++n}</th>` +
                 `<td>${dep.name}</td>` +
                 `<td>${dep.employees.length}</td>` +
-                `<td><a href="sections/departments/dep-edit.html?#">Edit</a> | `+
-                `<a href="sections/departments/dep-delete.html?#">Delete</a></td>` +
                 '</tr>'
             ;
         }
         $('#deps-table').html(out);
         $('.dep-pointed').on('click', getEmps);
-        $('a').on('click', (event) => { event.stopPropagation();});
+        removeDepSelected();
     }
 }
 
 function getEmps(event) {
     let b_name = branch_selected;
-    let d_name = event.target.parentElement.id.replaceAll("_", " ");
+    let d_row_id = event.target.parentElement.id;
+    let d_name = d_row_id.replaceAll("_", " ");
+    $('#deps-table').children('.table-primary').removeClass('table-primary');
+    $(`#${d_row_id}`).addClass('table-primary');
     saveDepSelected(d_name);
+    displayDepMenu();
     $('#dep-message').html('Дані по відділу: ' + d_name);
     $.post(
         "services/core.php",

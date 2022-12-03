@@ -10,9 +10,9 @@ body{
     color: #0a53be;
 }
 
-tr:hover{
+/* tr:hover{
     color: #0a53be;
-}
+} */
 
 .table{
     caret-color: transparent;
