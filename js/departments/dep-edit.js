@@ -9,7 +9,7 @@ let new_d_name = '';
 
 $(document).ready(() => {
     console.log('edit-dep -> ok');
-    console.log(d_name);
+    //console.log(d_name);
     displaySelect();
     $("#dep-name").val(d_name);
     $('#dep-edit-form').one('submit', function () {
@@ -18,7 +18,7 @@ $(document).ready(() => {
         });
         new_d_name = $("#dep-name").val();
         if (new_d_name !== '') {
-            console.log(`${b_name} | ${d_name} | ${new_d_name}`)
+            // console.log(`${b_name} | ${d_name} | ${new_d_name}`)
             $.post(
                 "../../services/core.php",
                 {

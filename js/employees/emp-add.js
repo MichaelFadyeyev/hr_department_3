@@ -1,2 +1,44 @@
-import {loadBranches, loadBranchSelected, saveDepSelected} from '../modules/storage.js';
+import {loadBranches, loadBranchSelected, loadDeps, loadDepSelected, saveDepSelected} from '../modules/storage.js';
 
+let branches = loadBranches();
+let deps = loadDeps();
+let b_name = loadBranchSelected();
+let d_name = loadDepSelected();
+let new_d_name = '';
+
+
+$(document).ready(() => {
+    console.log('edit-emp -> ok');
+    displaySelect();
+    // $("#dep-name").val(d_name);
+    // $('#dep-edit-form').one('submit', function () {
+    //     $("select#branch-select option:selected").each(function () {
+    //         b_name = $(this).val();
+    //     });
+    //     new_d_name = $("#dep-name").val();
+    //     if (new_d_name !== '') {
+    //         // console.log(`${b_name} | ${d_name} | ${new_d_name}`)
+    //         $.post(
+    //             "../../services/core.php",
+    //             {
+    //                 "action": "editDep",
+    //                 "b_name": b_name,
+    //                 "d_name": d_name,
+    //                 "new_d_name": new_d_name
+    //             }, successResult
+    //         );
+    //     }
+    // });
+});
+
+function displaySelect() {
+    let out = '';
+    for (let dep of deps) {
+        out += `<option value="${dep.name}" `;
+        if (dep.name === d_name) {
+            out += 'selected ';
+        }
+        out += `>${dep.name}</option>`;
+    }
+    $('#dep-select').html(out);
+}
