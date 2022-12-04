@@ -87,23 +87,25 @@ function getDeps() {
 // }
 
 function displayDeps(data) {
-    let deps = JSON.parse(data);
-    saveDeps(deps);
-    if (deps !== -1) {
-        let out = '';
-        let n = 0;
-        for (let dep of deps) {
-            out +=
-                `<tr id="${idEncode(dep.name)}" class="dep-pointed">` +
-                `<th scope="row">${++n}</th>` +
-                `<td>${dep.name}</td>` +
-                `<td>${dep.employees.length}</td>` +
-                '</tr>'
-                ;
+    if(parseInt(data) !== NaN){
+        let deps = JSON.parse(data);
+        saveDeps(deps);
+        if (deps !== -1) {
+            let out = '';
+            let n = 0;
+            for (let dep of deps) {
+                out +=
+                    `<tr id="${idEncode(dep.name)}" class="dep-pointed">` +
+                    `<th scope="row">${++n}</th>` +
+                    `<td>${dep.name}</td>` +
+                    `<td>${dep.employees.length}</td>` +
+                    '</tr>'
+                    ;
+            }
+            $('#deps-table').html(out);
+            $('.dep-pointed').on('click', getEmps);
+            removeDepSelected();
         }
-        $('#deps-table').html(out);
-        $('.dep-pointed').on('click', getEmps);
-        removeDepSelected();
     }
 }
 

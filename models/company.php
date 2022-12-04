@@ -21,6 +21,7 @@ class Company implements JsonSerializable
         return $this->name;
     }
 
+    //// branches ///////////////////////////////////
     public function get_branches(): array
     {
         return $this->branches;

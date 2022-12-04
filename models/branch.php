@@ -48,10 +48,8 @@ class Branch implements JsonSerializable
     public function find_department_index($name): int
     {
         $d = $this->find_department($name);
-        if ($d === -1) return $d;
-        else {
-            return array_search($d, $this->departments);
-        }
+        if ($d === -1) return -1;
+        return array_search($d, $this->departments);
     }
 
     public function del_department($name): void

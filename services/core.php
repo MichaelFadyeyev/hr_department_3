@@ -38,13 +38,25 @@ switch ($_POST['action']) {
             deleteBranch();
             break;
         }
+    case 'addEmp': {
+            addEmp();
+            break;
+        }
+    case 'editEmp': {
+            editEmp();
+            break;
+        }
+    case 'deleteEmp': {
+            deleteEmp();
+            break;
+        }
 }
 
 function initManager(): DataManager
 {
     $manager = new DataManager();
-    //    $manager->init_data();
-    //    $manager->save_data();
+    // $manager->init_data();
+    // $manager->save_data();
     $manager->load_data();
     return $manager;
 }
@@ -64,7 +76,11 @@ function getDeps(): void
 {
     if (isset($_POST['b_name'])) {
         $b_name = $_POST['b_name'];
-        echo json_encode(findBranch($b_name)->get_departments());
+        $b = findBranch($b_name);
+        if ($b === -1)
+            echo -1;
+        else
+            echo json_encode(findBranch($b_name)->get_departments());
     }
 }
 
@@ -76,7 +92,11 @@ function addDep(): void
         $manager = initManager();
         $b = $manager->get_company()->find_branch($b_name);
         if ($b !== -1) {
-            $b->add_department(new Department($d_name));
+            $d = new Department($d_name);
+            $d->add_position('Junior');
+            $d->add_position('Middle');
+            $d->add_position('Senior');
+            $b->add_department($d);
             $manager->save_data();
             echo 1;
         } else
@@ -104,15 +124,31 @@ function delDep(): void
 
 function editDep(): void
 {
-    if (isset($_POST['b_name']) && isset($_POST['d_name']) && isset($_POST['new_d_name'])) {
+    if (
+        isset($_POST['b_name']) &&
+        isset($_POST['new_b_name']) &&
+        isset($_POST['d_name']) &&
+        isset($_POST['new_d_name'])
+    ) {
         $b_name = $_POST['b_name'];
+        $new_b_name = $_POST['new_b_name'];
         $d_name = $_POST['d_name'];
         $new_d_name = $_POST['new_d_name'];
+
         $manager = initManager();
-        $b = $manager->get_company()->find_branch($b_name);
+        $c = $manager->get_company();
+        $b = $c->find_branch($b_name);
         if ($b !== -1) {
             if ($b->find_department($new_d_name) === -1) {
-                $b->find_department($d_name)->set_name($new_d_name);
+                $d = $b->find_department($d_name);
+                $d->set_name($new_d_name);
+                if ($b_name != $new_b_name) {
+                    $new_b = $c->find_branch($new_b_name);
+                    if ($new_b !== -1) {
+                        $new_b->add_department($d);
+                        $b->del_department($d_name);
+                    }
+                }
                 $manager->save_data();
                 echo 1;
             }
@@ -121,7 +157,6 @@ function editDep(): void
     } else
         echo -1;
 }
-
 
 function getEmps(): void
 {
@@ -157,12 +192,12 @@ function addBranch(): void
 function editBranch(): void
 {
     $manager = initManager();
-    if (isset($_POST['old_b_name']) && isset($_POST['b_name'])) {
+    if (isset($_POST['b_name']) && isset($_POST['new_b_name'])) {
         $b_name = $_POST['b_name'];
-        $old_b_name = $_POST['old_b_name'];
-        $b = $manager->get_company()->find_branch($old_b_name);
+        $new_b_name = $_POST['new_b_name'];
+        $b = $manager->get_company()->find_branch($b_name);
         if ($b !== -1) {
-            $b->set_name($b_name);
+            $b->set_name($new_b_name);
             $manager->save_data();
             echo 1;
         } else
@@ -181,4 +216,96 @@ function deleteBranch(): void
         }
     } else
         echo 0;
+}
+
+function addEmp(): void
+{
+    $manager = initManager();
+    if (
+        isset($_POST['b_name']) &&
+        isset($_POST['d_name']) &&
+        isset($_POST['e_name']) &&
+        isset($_POST['position']) &&
+        isset($_POST['salary']) &&
+        isset($_POST['phone'])
+    ) {
+        $b_name = $_POST['b_name'];
+        $d_name = $_POST['d_name'];
+        $e_name = $_POST['e_name'];
+        $position = $_POST['position'];
+        $salary = intval($_POST['salary']);
+        $phone = $_POST['phone'];
+
+        $b = $manager->get_company()->find_branch($b_name);
+        $d = $b->find_department($d_name);
+        $d->add_employee(new Employee($e_name, $position, $salary, $phone));
+        $manager->save_data();
+        echo 1;
+    } else echo 0;
+}
+
+function editEmp(): void
+{
+    $manager = initManager();
+    if (
+        isset($_POST['b_name']) &&
+        isset($_POST['d_name']) &&
+        isset($_POST['new_d_name']) &&
+        isset($_POST['e_name']) &&
+        isset($_POST['new_e_name']) &&
+        isset($_POST['position']) &&
+        isset($_POST['salary']) &&
+        isset($_POST['phone'])
+    ) {
+        $b_name = $_POST['b_name'];
+        $d_name = $_POST['d_name'];
+        $new_d_name = $_POST['new_d_name'];
+        $e_name = $_POST['e_name'];
+        $new_e_name = $_POST['new_e_name'];
+        $position = $_POST['position'];
+        $salary = intval($_POST['salary']);
+        $phone = $_POST['phone'];
+
+        $b = $manager->get_company()->find_branch($b_name);
+        $d = $b->find_department($d_name);
+        if ($new_d_name !== $d_name) {
+            $new_e = new Employee(
+                $new_e_name,
+                $position,
+                $salary,
+                $phone
+            );
+            $d->del_employee($e_name);
+            $d = $b->find_department($new_d_name);
+            $d->add_employee($new_e);
+        } else {
+            $e = $d->find_employee($e_name);
+            $e->set_name($new_e_name);
+            $e->set_position($position);
+            $e->set_salary($salary);
+            $e->set_phone($phone);
+        }
+        $manager->save_data();
+        echo 1;
+    } else echo 0;
+}
+
+function deleteEmp(): void
+{
+    $manager = initManager();
+    if (
+        isset($_POST['b_name']) &&
+        isset($_POST['d_name']) &&
+        isset($_POST['e_name'])
+    ) {
+        $b_name = $_POST['b_name'];
+        $d_name = $_POST['d_name'];
+        $e_name = $_POST['e_name'];
+
+        $b = $manager->get_company()->find_branch($b_name);
+        $d = $b->find_department($d_name);
+        $d->del_employee($e_name);
+        $manager->save_data();
+        echo 1;
+    } else echo -1;
 }
