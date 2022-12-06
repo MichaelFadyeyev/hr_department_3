@@ -8,7 +8,7 @@ import {
     removeDepSelected,
     removeEmpSelected,
     saveEmpSelected,
-    loadEmpSelected
+    loadEmpSelected, removeBranchSelected
 } from "./modules/storage.js";
 
 let branches;
@@ -35,7 +35,7 @@ function displayBranches(data) {
     let out = '';
     let b_selected = loadBranchSelected();
     if (b_selected === undefined)
-        out += '<option>Select branch...</option>';
+        out += '<option>Оберіть філію...</option>';
     for (let branch of branches) {
         out += '<option ';
         if (b_selected === branch) {
@@ -87,10 +87,9 @@ function getDeps() {
 // }
 
 function displayDeps(data) {
-    if(parseInt(data) !== NaN){
+    if(data !== NaN){
         let deps = JSON.parse(data);
         saveDeps(deps);
-        if (deps !== -1) {
             let out = '';
             let n = 0;
             for (let dep of deps) {
@@ -105,7 +104,11 @@ function displayDeps(data) {
             $('#deps-table').html(out);
             $('.dep-pointed').on('click', getEmps);
             removeDepSelected();
-        }
+    }
+    else{
+        removeBranchSelected();
+        removeDepSelected();
+        $('#deps-table').html('');
     }
 }
 
