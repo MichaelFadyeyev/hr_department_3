@@ -1,14 +1,12 @@
+/// branches /////////////////
 export function saveBranchSelected(b_name) {
     localStorage.setItem('b_selected', b_name);
 }
-
-export function saveDepSelected(d_name){
-    localStorage.setItem('d_selected', d_name);
-}
-
-export function saveDeps(deps){
-    let depsJSON = JSON.stringify(deps);
-    localStorage.setItem('deps', depsJSON);
+export function loadBranchSelected() {
+    let b_name = localStorage.getItem('b_selected');
+    if (b_name) {
+        return b_name;
+    }
 }
 
 export function saveBranches(branches){
@@ -23,18 +21,13 @@ export function loadBranches() {
     }
 }
 
-export function loadBranchSelected() {
-    let b_name = localStorage.getItem('b_selected');
-    if (b_name) {
-        return b_name;
-    }
+export function removeBranchSelected(){
+    localStorage.removeItem('b_selected');
 }
 
-export function loadDeps() {
-    let depsJSON = localStorage.getItem('deps');
-    if (depsJSON) {
-        return JSON.parse(depsJSON);
-    }
+/// departments //////////////
+export function saveDepSelected(d_name){
+    localStorage.setItem('d_selected', d_name);
 }
 
 export function loadDepSelected() {
@@ -44,10 +37,55 @@ export function loadDepSelected() {
     }
 }
 
+export function saveDeps(deps){
+    let depsJSON = JSON.stringify(deps);
+    localStorage.setItem('deps', depsJSON);
+}
+
+export function loadDeps() {
+    let depsJSON = localStorage.getItem('deps');
+    if (depsJSON) {
+        return JSON.parse(depsJSON);
+    }
+}
+
 export function removeDepSelected(){
     localStorage.removeItem('d_selected');
 }
 
-export function removeBranchSelected(){
-    localStorage.removeItem('b_selected');
+/// employees/////////////////
+export function saveEmpSelected(e_name){
+    localStorage.setItem('e_selected', e_name);
 }
+
+export function loadEmpSelected() {
+    let e_name = localStorage.getItem('e_selected');
+    if (e_name) {
+        return e_name;
+    }
+}
+
+export function saveEmps(emps){
+    let empsJSON = JSON.stringify(emps);
+    localStorage.setItem('emps', empsJSON);
+}
+
+export function loadEmps() {
+    let empsJSON = localStorage.getItem('emps');
+    if (empsJSON) {
+        return JSON.parse(empsJSON);
+    }
+}
+
+export function removeEmpSelected(){
+    localStorage.removeItem('e_selected');
+}
+
+
+
+
+
+
+
+
+

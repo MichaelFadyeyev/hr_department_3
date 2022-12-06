@@ -1,21 +1,21 @@
 import {loadBranchSelected, saveBranchSelected, saveDepSelected} from '../modules/storage.js';
 
-let b_name = '';
-let old_b_name = loadBranchSelected();
+let b_name = loadBranchSelected();
+let new_b_name = '';
 
 
 $(document).ready(() => {
     console.log('edit-branch -> ok');
-    $("#branch-name").val(old_b_name);
+    $("#branch-name").val(b_name);
     $('#branch-edit-form').on('submit', () => {
-        b_name = $("#branch-name").val();
+        new_b_name = $("#branch-name").val();
         if (b_name !== '') {
             $.post(
                 "../../services/core.php",
                 {
                     "action": "editBranch",
-                    "old_b_name": old_b_name,
                     "b_name": b_name,
+                    "new_b_name": new_b_name,
                 }, successResult
             );
         }

@@ -45,10 +45,16 @@ class DataManager implements JsonSerializable
 
             for ($j = 0; $j < 3; $j++) {
                 $m = $j + 1;
-                $branch->add_department(new Department("Department - 00{$m}"));
+                $new_dep = new Department("Department - 00{$m}");
+                $new_dep->add_position('Junior');
+                $new_dep->add_position('Middle');
+                $new_dep->add_position('Senior');
+                $branch->add_department($new_dep);
             }
             $this->company->add_branch($branch);
         }
+
+
 
         $this->company->get_branches()[0]->get_departments()[0]->add_employee(new Employee('Vasylenko', 'Junior', 20000, '+380682223344'));
         $this->company->get_branches()[0]->get_departments()[0]->add_employee(new Employee('Petrenko', 'Middle', 30000, '+380681117744'));
@@ -67,7 +73,7 @@ class DataManager implements JsonSerializable
         $this->company->get_branches()[1]->get_departments()[2]->add_employee(new Employee('Khvoskyk', 'Senior', 50000, '+380684443355'));
 
         $this->company->get_branches()[2]->get_departments()[0]->add_employee(new Employee('Ogrizko', 'Middle', 34000, '+380688881133'));
-        $this->company->get_branches()[2]->get_departments()[0]->add_employee(new Employee('Shelud`ko', 'Middle', 42000, '+380665553366'));
+        $this->company->get_branches()[2]->get_departments()[0]->add_employee(new Employee('Sheludko', 'Middle', 42000, '+380665553366'));
         $this->company->get_branches()[2]->get_departments()[0]->add_employee(new Employee('Smishchuk', 'Senior', 70000, '+380683332211'));
 
         $this->company->get_branches()[2]->get_departments()[0]->add_employee(new Employee('Grusha', 'Junior', 22000, '+380687772266'));

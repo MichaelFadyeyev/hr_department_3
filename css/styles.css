@@ -1,32 +1,34 @@
-body{
+body {
     padding-top: 30px;
 }
 
-.dep-pointed{
+.dep-pointed,
+.emp-pointed {
     cursor: pointer;
 }
 
-.dep-pointed:hover{
+.dep-pointed:hover,
+.emp-pointed:hover {
     color: #0a53be;
 }
 
-tr:hover{
+/* tr:hover{
     color: #0a53be;
-}
+} */
 
-.table{
+.table {
     caret-color: transparent;
 }
 
 .table th:not(:first-child),
-.table td:not(:first-child){
+.table td:not(:first-child) {
     text-align: center;
 }
 
-.branch-select-main{
+.branch-select-main {
     width: calc(100% - 16px);
 }
 
-label{
+label {
     margin-bottom: 0.5rem;
 }
