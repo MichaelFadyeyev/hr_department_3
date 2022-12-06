@@ -2,61 +2,73 @@
 require('data_manager.php');
 
 switch ($_POST['action']) {
-    case 'getBranches': {
-            getBranches();
-            break;
-        }
-    case 'getDeps': {
-            getDeps();
-            break;
-        }
-    case 'getEmps': {
-            getEmps();
-            break;
-        }
-    case 'addDep': {
-            addDep();
-            break;
-        }
-    case 'delDep': {
-            delDep();
-            break;
-        }
-    case 'editDep': {
-            editDep();
-            break;
-        }
-    case 'addBranch': {
-            addBranch();
-            break;
-        }
-    case 'editBranch': {
-            editBranch();
-            break;
-        }
-    case 'deleteBranch': {
-            deleteBranch();
-            break;
-        }
-    case 'addEmp': {
-            addEmp();
-            break;
-        }
-    case 'editEmp': {
-            editEmp();
-            break;
-        }
-    case 'deleteEmp': {
-            deleteEmp();
-            break;
-        }
+    case 'getBranches':
+    {
+        getBranches();
+        break;
+    }
+    case 'getDeps':
+    {
+        getDeps();
+        break;
+    }
+    case 'getEmps':
+    {
+        getEmps();
+        break;
+    }
+    case 'addDep':
+    {
+        addDep();
+        break;
+    }
+    case 'delDep':
+    {
+        delDep();
+        break;
+    }
+    case 'editDep':
+    {
+        editDep();
+        break;
+    }
+    case 'addBranch':
+    {
+        addBranch();
+        break;
+    }
+    case 'editBranch':
+    {
+        editBranch();
+        break;
+    }
+    case 'deleteBranch':
+    {
+        deleteBranch();
+        break;
+    }
+    case 'addEmp':
+    {
+        addEmp();
+        break;
+    }
+    case 'editEmp':
+    {
+        editEmp();
+        break;
+    }
+    case 'deleteEmp':
+    {
+        deleteEmp();
+        break;
+    }
 }
 
 function initManager(): DataManager
 {
     $manager = new DataManager();
-    // $manager->init_data();
-    // $manager->save_data();
+//    $manager->init_data();
+//    $manager->save_data();
     $manager->load_data();
     return $manager;
 }
@@ -79,8 +91,7 @@ function getDeps(): void
         $b = findBranch($b_name);
         if ($b === -1)
             echo -1;
-        else
-            echo json_encode(findBranch($b_name)->get_departments());
+        else echo json_encode(findBranch($b_name)->get_departments());
     }
 }
 
@@ -92,17 +103,12 @@ function addDep(): void
         $manager = initManager();
         $b = $manager->get_company()->find_branch($b_name);
         if ($b !== -1) {
-            $d = new Department($d_name);
-            $d->add_position('Junior');
-            $d->add_position('Middle');
-            $d->add_position('Senior');
+            $d = new_dep($d_name);
             $b->add_department($d);
             $manager->save_data();
             echo 1;
-        } else
-            echo -1;
-    } else
-        echo -1;
+        } else echo -1;
+    } else echo 0;
 }
 
 function delDep(): void
@@ -116,10 +122,8 @@ function delDep(): void
             $b->del_department($d_name);
             $manager->save_data();
             echo 1;
-        } else
-            echo -1;
-    } else
-        echo -2;
+        } else echo -1;
+    } else echo 0;
 }
 
 function editDep(): void ///////////// to fix /////////////
@@ -139,27 +143,27 @@ function editDep(): void ///////////// to fix /////////////
         $c = $manager->get_company();
         $b = $c->find_branch($b_name);
         if ($b !== -1) {
-            if ($b_name === $new_b_name) {
-
-            } else {
-            }
-            if ($b->find_department($new_d_name) === -1) {
-                $d = $b->find_department($d_name);
-                $d->set_name($new_d_name);
-                if ($b_name != $new_b_name) {
+            $d = $b->find_department($d_name);
+            if ($d !== -1) {
+                if ($b_name === $new_b_name) {
+                    $d->set_name($new_d_name);
+                    $manager->save_data();
+                    echo 1;
+                } else {
                     $new_b = $c->find_branch($new_b_name);
                     if ($new_b !== -1) {
-                        $new_b->add_department($d);
-                        $b->del_department($d_name);
-                    }
+                        if ($new_b->find_department($new_d_name) === -1) {
+                            $new_d = new_dep_as_copy($new_d_name, $d);
+                            $new_b->add_department($new_d);
+                            $b->del_department($d_name);
+                            $manager->save_data();
+                            echo 1;
+                        } else echo -1;
+                    } else echo -1;
                 }
-                $manager->save_data();
-                echo 1;
-            }
-        } else
-            echo -1;
-    } else
-        echo -1;
+            } else echo -1;
+        } else echo -1;
+    } else echo 0;
 }
 
 function getEmps(): void
@@ -187,10 +191,8 @@ function addBranch(): void
             $manager->get_company()->add_branch(new Branch($b_name));
             $manager->save_data();
             echo 1;
-        } else
-            echo -1;
-    } else
-        echo 0;
+        } else echo -1;
+    } else echo 0;
 }
 
 function editBranch(): void
@@ -204,10 +206,8 @@ function editBranch(): void
             $b->set_name($new_b_name);
             $manager->save_data();
             echo 1;
-        } else
-            echo -1;
-    } else
-        echo 0;
+        } else echo -1;
+    } else echo 0;
 }
 
 function deleteBranch(): void
@@ -218,8 +218,7 @@ function deleteBranch(): void
             $manager->save_data();
             echo 1;
         }
-    } else
-        echo 0;
+    } else echo 0;
 }
 
 function addEmp(): void
@@ -311,5 +310,29 @@ function deleteEmp(): void
         $d->del_employee($e_name);
         $manager->save_data();
         echo 1;
-    } else echo -1;
+    } else echo 0;
 }
+
+function init_positions($d): void
+{
+    $d->add_position('Junior');
+    $d->add_position('Middle');
+    $d->add_position('Senior');
+}
+
+function new_dep($new_d_name):Department{
+    $new_d = new Department($new_d_name);
+    init_positions($new_d);
+    return $new_d;
+}
+
+
+function new_dep_as_copy($new_d_name, $d): Department
+{
+    $new_d = new_dep($new_d_name);
+    foreach ($d->get_employees() as $employee) {
+        $new_d->add_employee($employee);
+    }
+    return $new_d;
+}
+
