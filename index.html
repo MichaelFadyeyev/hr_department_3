@@ -13,24 +13,34 @@
     <div class="container">
         <h1>Система управління підрозділами компанії</h1>
         </br>
-        <div class="col-4">
-            <form action="#" method="post" id="branch-form">
-                <div class="mb-3">
-                    <select name="branch" id="branch-select" class="form-select branch-select-main"
-                            title="Brunches List">
-                        <!--                        <option >Select branch...</option>-->
-                        <!--                        <option value="Branch-01">Branch-01</option>-->
-                        <!--                        <option value="Branch-02">Branch-02</option>-->
-                        <!--                        <option value="Branch-03">Branch-03</option>-->
-                    </select>
+        <div class="row">
+            <div class="col-4">
+                <form action="#" method="post" id="branch-form">
+                    <div class="mb-3">
+                        <select name="branch" id="branch-select" class="form-select branch-select-main"
+                                title="Brunches List">
+                            <!--                        <option >Select branch...</option>-->
+                            <!--                        <option value="Branch-01">Branch-01</option>-->
+                            <!--                        <option value="Branch-02">Branch-02</option>-->
+                            <!--                        <option value="Branch-03">Branch-03</option>-->
+                        </select>
+                    </div>
+                </form>
+                <div id="branch-crud">
+                    <!--        <a href="#">Додати філіал</a>-->
                 </div>
-            </form>
-            <div id="branch-crud">
-                <!--        <a href="#">Додати філіал</a>-->
             </div>
-        </div>
-        <div class="col-8">
-            <!-- тут буде селект вибору робітника -->
+            <div class="col-8">
+                <!-- тут буде селект вибору робітника -->
+                <!-- <div class="input-group">
+                    <input class="form-control border-end-0 border rounded-pill" type="text" value="search"
+                           id="example-search-input">
+                </div> -->
+                <div class="form-group has-search">
+                    <span class="fa fa-search form-control-feedback"></span>
+                    <input type="text" class="form-control" placeholder="Search">
+                </div>
+            </div>
         </div>
         <div class="row">
             <div class="col-4">

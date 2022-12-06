@@ -122,7 +122,7 @@ function delDep(): void
         echo -2;
 }
 
-function editDep(): void
+function editDep(): void ///////////// to fix /////////////
 {
     if (
         isset($_POST['b_name']) &&
@@ -139,6 +139,10 @@ function editDep(): void
         $c = $manager->get_company();
         $b = $c->find_branch($b_name);
         if ($b !== -1) {
+            if ($b_name === $new_b_name) {
+
+            } else {
+            }
             if ($b->find_department($new_d_name) === -1) {
                 $d = $b->find_department($d_name);
                 $d->set_name($new_d_name);
