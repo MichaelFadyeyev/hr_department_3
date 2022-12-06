@@ -176,7 +176,7 @@ function getEmps(): void
     }
 }
 
-function findBranch($b_name): Branch
+function findBranch($b_name): Branch|int
 {
     $manager = initManager();
     return $manager->get_company()->find_branch($b_name);
